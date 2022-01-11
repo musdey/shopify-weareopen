@@ -113,7 +113,6 @@ app.prepare().then(async () => {
           body.dataobject
         );
       }
-      console.log(body);
       ctx.res.statusCode = 201;
       ctx.res.end();
     }

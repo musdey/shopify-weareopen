@@ -1,12 +1,11 @@
 import {
-  Heading,
   Page,
   Card,
   SettingToggle,
   TextStyle,
   TextField,
   FormLayout,
-  Button,
+  Layout,
 } from "@shopify/polaris";
 import { useAppBridge } from "@shopify/app-bridge-react";
 import { authenticatedFetch } from "@shopify/app-bridge-utils";
@@ -118,295 +117,360 @@ const Index = () => {
       sunday: `${sunday ? "O" : "C"}-${sunHours}`,
     };
 
-    const response = await authFetch(`/api/openinghours`, {
+    await authFetch(`/api/openinghours`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ metafieldId: metafieldId, dataobject }),
     });
-    console.log(response.ok);
   };
-  return (
-    <Page>
-      <Heading>Set the opening hours for your business</Heading>
 
-      <Button
-        disabled={!dataChanged}
-        destructive={dataChanged}
-        onClick={saveClicked}
-      >
-        Save changes
-      </Button>
+  return (
+    <Page
+      breadcrumbs={[{ url: "/admin" }]}
+      title="WeAreOpen App"
+      subtitle="Set the opening hours for your business!"
+      compactTitle
+      primaryAction={{
+        content: "Save changes",
+        disabled: !dataChanged,
+        destructive: dataChanged,
+        onClick: saveClicked,
+      }}
+    >
       <Card title="Monday" sectioned>
-        <SettingToggle
-          action={{
-            content: monday ? "Close for day" : "Open for day",
-            onAction: () => {
-              setMonday(!monday);
-            },
-          }}
-          enabled={monday}
-        >
-          Your shop is {monday ? "open" : "closed"} on
-          <TextStyle variation="strong"> Monday</TextStyle>.
-        </SettingToggle>
-        <FormLayout>
-          <FormLayout.Group>
-            <TextField
-              label="FROM"
-              value={monHours.split("-")[0]}
-              onChange={(data) => {
-                const result = `${data}-${monHours.split("-")[1]}`;
-                setmonHours(result);
+        <Layout>
+          <Layout.Section secondary>
+            <FormLayout>
+              <FormLayout.Group condensed>
+                <TextField
+                  label="FROM"
+                  value={monHours.split("-")[0]}
+                  onChange={(data) => {
+                    const result = `${data}-${monHours.split("-")[1]}`;
+                    setmonHours(result);
+                  }}
+                  inputMode="numeric"
+                  type="time"
+                />
+                <TextField
+                  label="TO"
+                  value={monHours.split("-")[1]}
+                  onChange={(data) => {
+                    const result = `${monHours.split("-")[0]}-${data}`;
+                    setmonHours(result);
+                  }}
+                  inputMode="numeric"
+                  type="time"
+                />
+              </FormLayout.Group>
+            </FormLayout>
+          </Layout.Section>
+          <Layout.Section>
+            <SettingToggle
+              action={{
+                content: monday ? "Close for day" : "Open for day",
+                onAction: () => {
+                  setMonday(!monday);
+                },
               }}
-              inputMode="numeric"
-              type="time"
-            />
-            <TextField
-              label="TO"
-              value={monHours.split("-")[1]}
-              onChange={(data) => {
-                const result = `${monHours.split("-")[0]}-${data}`;
-                setmonHours(result);
-              }}
-              inputMode="numeric"
-              type="time"
-            />
-          </FormLayout.Group>
-        </FormLayout>
+              enabled={monday}
+            >
+              Your shop is
+              <TextStyle variation="strong">
+                {monday ? " open " : " closed "}
+              </TextStyle>
+              on Monday.
+            </SettingToggle>
+          </Layout.Section>
+        </Layout>
       </Card>
 
       <Card title="Tuesday" sectioned>
-        <SettingToggle
-          action={{
-            content: tuesday ? "Close for day" : "Open for day",
-            onAction: () => {
-              setTuesday(!tuesday);
-            },
-          }}
-          enabled={tuesday}
-        >
-          Your shop is {tuesday ? "open" : "closed"} on
-          <TextStyle variation="strong"> Tuesday</TextStyle>.
-        </SettingToggle>
-        <FormLayout>
-          <FormLayout.Group>
-            <TextField
-              label="FROM"
-              value={tuesHours.split("-")[0]}
-              onChange={(data) => {
-                const result = `${data}-${tuesHours.split("-")[1]}`;
-                settuesHours(result);
+        <Layout>
+          <Layout.Section secondary>
+            <FormLayout>
+              <FormLayout.Group condensed>
+                <TextField
+                  label="FROM"
+                  value={tuesHours.split("-")[0]}
+                  onChange={(data) => {
+                    const result = `${data}-${tuesHours.split("-")[1]}`;
+                    settuesHours(result);
+                  }}
+                  inputMode="numeric"
+                  type="time"
+                />
+                <TextField
+                  label="TO"
+                  value={tuesHours.split("-")[1]}
+                  onChange={(data) => {
+                    const result = `${tuesHours.split("-")[0]}-${data}`;
+                    settuesHours(result);
+                  }}
+                  inputMode="numeric"
+                  type="time"
+                />
+              </FormLayout.Group>
+            </FormLayout>
+          </Layout.Section>
+          <Layout.Section>
+            <SettingToggle
+              action={{
+                content: tuesday ? "Close for day" : "Open for day",
+                onAction: () => {
+                  setTuesday(!tuesday);
+                },
               }}
-              inputMode="numeric"
-              type="time"
-            />
-            <TextField
-              label="TO"
-              value={tuesHours.split("-")[1]}
-              onChange={(data) => {
-                const result = `${tuesHours.split("-")[0]}-${data}`;
-                settuesHours(result);
-              }}
-              inputMode="numeric"
-              type="time"
-            />
-          </FormLayout.Group>
-        </FormLayout>
+              enabled={tuesday}
+            >
+              Your shop is
+              <TextStyle variation="strong">
+                {tuesday ? " open " : " closed "}
+              </TextStyle>{" "}
+              on Tuesday.
+            </SettingToggle>
+          </Layout.Section>
+        </Layout>
       </Card>
 
       <Card title="Wednesday" sectioned>
-        <SettingToggle
-          action={{
-            content: wednesday ? "Close for day" : "Open for day",
-            onAction: () => {
-              setWednesday(!wednesday);
-            },
-          }}
-          enabled={wednesday}
-        >
-          Your shop is {wednesday ? "open" : "closed"} on
-          <TextStyle variation="strong"> Wednesday</TextStyle>.
-        </SettingToggle>
-        <FormLayout>
-          <FormLayout.Group>
-            <TextField
-              label="FROM"
-              value={wedHours.split("-")[0]}
-              onChange={(data) => {
-                const result = `${data}-${wedHours.split("-")[1]}`;
-                setwedHours(result);
+        <Layout>
+          <Layout.Section secondary>
+            <FormLayout>
+              <FormLayout.Group condensed>
+                <TextField
+                  label="FROM"
+                  value={wedHours.split("-")[0]}
+                  onChange={(data) => {
+                    const result = `${data}-${wedHours.split("-")[1]}`;
+                    setwedHours(result);
+                  }}
+                  inputMode="numeric"
+                  type="time"
+                />
+                <TextField
+                  label="TO"
+                  value={wedHours.split("-")[1]}
+                  onChange={(data) => {
+                    const result = `${wedHours.split("-")[0]}-${data}`;
+                    setwedHours(result);
+                  }}
+                  inputMode="numeric"
+                  type="time"
+                />
+              </FormLayout.Group>
+            </FormLayout>
+          </Layout.Section>
+          <Layout.Section>
+            <SettingToggle
+              action={{
+                content: wednesday ? "Close for day" : "Open for day",
+                onAction: () => {
+                  setWednesday(!wednesday);
+                },
               }}
-              inputMode="numeric"
-              type="time"
-            />
-            <TextField
-              label="TO"
-              value={wedHours.split("-")[1]}
-              onChange={(data) => {
-                const result = `${wedHours.split("-")[0]}-${data}`;
-                setwedHours(result);
-              }}
-              inputMode="numeric"
-              type="time"
-            />
-          </FormLayout.Group>
-        </FormLayout>
+              enabled={wednesday}
+            >
+              Your shop is
+              <TextStyle variation="strong">
+                {wednesday ? " open " : " closed "}
+              </TextStyle>
+              on Wednesday.
+            </SettingToggle>
+          </Layout.Section>
+        </Layout>
       </Card>
 
       <Card title="Thursday" sectioned>
-        <SettingToggle
-          action={{
-            content: thursday ? "Close for day" : "Open for day",
-            onAction: () => {
-              setThursday(!thursday);
-            },
-          }}
-          enabled={thursday}
-        >
-          Your shop is {thursday ? "open" : "closed"} on
-          <TextStyle variation="strong"> Thursday</TextStyle>.
-        </SettingToggle>
-        <FormLayout>
-          <FormLayout.Group>
-            <TextField
-              label="FROM"
-              value={thurHours.split("-")[0]}
-              onChange={(data) => {
-                const result = `${data}-${thurHours.split("-")[1]}`;
-                setthurHours(result);
+        <Layout>
+          <Layout.Section secondary>
+            <FormLayout>
+              <FormLayout.Group condensed>
+                <TextField
+                  label="FROM"
+                  value={thurHours.split("-")[0]}
+                  onChange={(data) => {
+                    const result = `${data}-${thurHours.split("-")[1]}`;
+                    setthurHours(result);
+                  }}
+                  inputMode="numeric"
+                  type="time"
+                />
+                <TextField
+                  label="TO"
+                  value={thurHours.split("-")[1]}
+                  onChange={(data) => {
+                    const result = `${thurHours.split("-")[0]}-${data}`;
+                    setthurHours(result);
+                  }}
+                  inputMode="numeric"
+                  type="time"
+                />
+              </FormLayout.Group>
+            </FormLayout>
+          </Layout.Section>
+          <Layout.Section>
+            <SettingToggle
+              action={{
+                content: thursday ? "Close for day" : "Open for day",
+                onAction: () => {
+                  setThursday(!thursday);
+                },
               }}
-              inputMode="numeric"
-              type="time"
-            />
-            <TextField
-              label="TO"
-              value={thurHours.split("-")[1]}
-              onChange={(data) => {
-                const result = `${thurHours.split("-")[0]}-${data}`;
-                setthurHours(result);
-              }}
-              inputMode="numeric"
-              type="time"
-            />
-          </FormLayout.Group>
-        </FormLayout>
+              enabled={thursday}
+            >
+              Your shop is
+              <TextStyle variation="strong">
+                {thursday ? " open " : " closed "}
+              </TextStyle>
+              on Thursday.
+            </SettingToggle>
+          </Layout.Section>
+        </Layout>
       </Card>
 
       <Card title="Friday" sectioned>
-        <SettingToggle
-          action={{
-            content: friday ? "Close for day" : "Open for day",
-            onAction: () => {
-              setFriday(!friday);
-            },
-          }}
-          enabled={friday}
-        >
-          Your shop is {friday ? "open" : "closed"} on
-          <TextStyle variation="strong"> Friday</TextStyle>.
-        </SettingToggle>
-        <FormLayout>
-          <FormLayout.Group>
-            <TextField
-              label="FROM"
-              value={friHours.split("-")[0]}
-              onChange={(data) => {
-                const result = `${data}-${friHours.split("-")[1]}`;
-                setfriHours(result);
+        <Layout>
+          <Layout.Section secondary>
+            <FormLayout>
+              <FormLayout.Group condensed>
+                <TextField
+                  label="FROM"
+                  value={friHours.split("-")[0]}
+                  onChange={(data) => {
+                    const result = `${data}-${friHours.split("-")[1]}`;
+                    setfriHours(result);
+                  }}
+                  inputMode="numeric"
+                  type="time"
+                />
+                <TextField
+                  label="TO"
+                  value={friHours.split("-")[1]}
+                  onChange={(data) => {
+                    const result = `${friHours.split("-")[0]}-${data}`;
+                    setfriHours(result);
+                  }}
+                  inputMode="numeric"
+                  type="time"
+                />
+              </FormLayout.Group>
+            </FormLayout>
+          </Layout.Section>
+          <Layout.Section>
+            <SettingToggle
+              action={{
+                content: friday ? "Close for day" : "Open for day",
+                onAction: () => {
+                  setFriday(!friday);
+                },
               }}
-              inputMode="numeric"
-              type="time"
-            />
-            <TextField
-              label="TO"
-              value={friHours.split("-")[1]}
-              onChange={(data) => {
-                const result = `${friHours.split("-")[0]}-${data}`;
-                setfriHours(result);
-              }}
-              inputMode="numeric"
-              type="time"
-            />
-          </FormLayout.Group>
-        </FormLayout>
+              enabled={friday}
+            >
+              Your shop is
+              <TextStyle variation="strong">
+                {friday ? " open " : " closed "}
+              </TextStyle>
+              on Friday.
+            </SettingToggle>
+          </Layout.Section>
+        </Layout>
       </Card>
 
       <Card title="Saturday" sectioned>
-        <SettingToggle
-          action={{
-            content: saturday ? "Close for day" : "Open for day",
-            onAction: () => {
-              setSaturday(!saturday);
-            },
-          }}
-          enabled={saturday}
-        >
-          Your shop is {saturday ? "open" : "closed"} on
-          <TextStyle variation="strong"> Saturday</TextStyle>.
-        </SettingToggle>
-        <FormLayout>
-          <FormLayout.Group>
-            <TextField
-              label="FROM"
-              value={satHours.split("-")[0]}
-              onChange={(data) => {
-                const result = `${data}-${satHours.split("-")[1]}`;
-                setsatHours(result);
+        <Layout>
+          <Layout.Section secondary>
+            <FormLayout>
+              <FormLayout.Group condensed>
+                <TextField
+                  label="FROM"
+                  value={satHours.split("-")[0]}
+                  onChange={(data) => {
+                    const result = `${data}-${satHours.split("-")[1]}`;
+                    setsatHours(result);
+                  }}
+                  inputMode="numeric"
+                  type="time"
+                />
+                <TextField
+                  label="TO"
+                  value={satHours.split("-")[1]}
+                  onChange={(data) => {
+                    const result = `${satHours.split("-")[0]}-${data}`;
+                    setsatHours(result);
+                  }}
+                  inputMode="numeric"
+                  type="time"
+                />
+              </FormLayout.Group>
+            </FormLayout>
+          </Layout.Section>
+          <Layout.Section>
+            <SettingToggle
+              action={{
+                content: saturday ? "Close for day" : "Open for day",
+                onAction: () => {
+                  setSaturday(!saturday);
+                },
               }}
-              inputMode="numeric"
-              type="time"
-            />
-            <TextField
-              label="TO"
-              value={satHours.split("-")[1]}
-              onChange={(data) => {
-                const result = `${satHours.split("-")[0]}-${data}`;
-                setsatHours(result);
-              }}
-              inputMode="numeric"
-              type="time"
-            />
-          </FormLayout.Group>
-        </FormLayout>
+              enabled={saturday}
+            >
+              Your shop is
+              <TextStyle variation="strong">
+                {saturday ? " open " : " closed "}
+              </TextStyle>
+              on Saturday.
+            </SettingToggle>
+          </Layout.Section>
+        </Layout>
       </Card>
 
       <Card title="Sunday" sectioned>
-        <SettingToggle
-          action={{
-            content: sunday ? "Close for day" : "Open for day",
-            onAction: () => {
-              setSunday(!sunday);
-            },
-          }}
-          enabled={sunday}
-        >
-          Your shop is {sunday ? "open" : "closed"} on
-          <TextStyle variation="strong"> Sunday</TextStyle>.
-        </SettingToggle>
-        <FormLayout>
-          <FormLayout.Group>
-            <TextField
-              label="FROM"
-              value={sunHours.split("-")[0]}
-              onChange={(data) => {
-                const result = `${data}-${sunHours.split("-")[1]}`;
-                setsunHours(result);
+        <Layout>
+          <Layout.Section secondary>
+            <FormLayout>
+              <FormLayout.Group condensed>
+                <TextField
+                  label="FROM"
+                  value={sunHours.split("-")[0]}
+                  onChange={(data) => {
+                    const result = `${data}-${sunHours.split("-")[1]}`;
+                    setsunHours(result);
+                  }}
+                  inputMode="numeric"
+                  type="time"
+                />
+                <TextField
+                  label="TO"
+                  value={sunHours.split("-")[1]}
+                  onChange={(data) => {
+                    const result = `${sunHours.split("-")[0]}-${data}`;
+                    setsunHours(result);
+                  }}
+                  inputMode="numeric"
+                  type="time"
+                />
+              </FormLayout.Group>
+            </FormLayout>
+          </Layout.Section>
+          <Layout.Section>
+            <SettingToggle
+              action={{
+                content: sunday ? "Close for day" : "Open for day",
+                onAction: () => {
+                  setSunday(!sunday);
+                },
               }}
-              inputMode="numeric"
-              type="time"
-            />
-            <TextField
-              label="TO"
-              value={sunHours.split("-")[1]}
-              onChange={(data) => {
-                const result = `${sunHours.split("-")[0]}-${data}`;
-                setsunHours(result);
-              }}
-              inputMode="numeric"
-              type="time"
-            />
-          </FormLayout.Group>
-        </FormLayout>
+              enabled={sunday}
+            >
+              Your shop is
+              <TextStyle variation="strong">
+                {sunday ? " open " : " closed "}
+              </TextStyle>
+              on Sunday.
+            </SettingToggle>
+          </Layout.Section>
+        </Layout>
       </Card>
     </Page>
   );

@@ -26,7 +26,6 @@ const openingHoursMetafieldExists = async (host, token) => {
   if (metafields.length == 0) {
     return false;
   } else {
-    console.log(metafields);
     let exists = false;
     metafields.forEach((element) => {
       if (element.node.namespace == "openinghours") {
@@ -38,13 +37,13 @@ const openingHoursMetafieldExists = async (host, token) => {
 };
 
 const dataobject = {
-  monday: "O-06:00-22:00",
-  tuesday: "O-06:00-22:00",
-  wednesday: "O-06:00-22:00",
-  thursday: "O-10:00-18:00",
-  friday: "O-10:00-22:00",
-  saturday: "O-06:00-22:00",
-  sunday: "C-06:00-22:00",
+  monday: "O-09:00-19:00",
+  tuesday: "O-09:00-19:00",
+  wednesday: "O-09:00-19:00",
+  thursday: "O-09:00-19:00",
+  friday: "O-09:00-19:00",
+  saturday: "O-09:00-19:00",
+  sunday: "C-06:00-19:00",
 };
 
 const createOpeningHoursMetafield = async (domain, token) => {
@@ -63,7 +62,7 @@ const createOpeningHoursMetafield = async (domain, token) => {
       type: DataType.JSON,
     });
     if (response) {
-      console.log("successfully created inital openinghours");
+      console.log("Successfully created inital openinghours.");
     }
   } catch (error) {
     console.log(error);
@@ -79,7 +78,7 @@ const updateOpeningHoursMetafield = async (
   try {
     const client = new Shopify.Clients.Rest(domain, token);
     const metafieldIdValue = metafieldId.split("/")[4];
-    const response = await client.post({
+    const response = await client.put({
       path: `metafields/${metafieldIdValue}`,
       data: {
         metafield: {
@@ -91,7 +90,7 @@ const updateOpeningHoursMetafield = async (
       type: DataType.JSON,
     });
     if (response) {
-      console.log("successfully updated inital openinghours");
+      console.log("Successfully updated openinghours.");
     }
   } catch (error) {
     console.log(error);
