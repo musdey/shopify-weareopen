@@ -37,6 +37,9 @@ Shopify.Context.initialize({
 const ACTIVE_SHOPIFY_SHOPS = {};
 
 app.prepare().then(async () => {
+  if (process.env.SHOPIFY_API_KEY) {
+    console.log("ENV is set correctly");
+  }
   const server = new Koa();
   const router = new Router();
   server.keys = [Shopify.Context.API_SECRET_KEY];
