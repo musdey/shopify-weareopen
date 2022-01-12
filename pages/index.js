@@ -31,6 +31,8 @@ const Index = () => {
   const [friHours, setfriHours] = useState("00:00-23:59");
   const [satHours, setsatHours] = useState("00:00-23:59");
   const [sunHours, setsunHours] = useState("00:00-23:59");
+  const [postCodeTextField, setPostCodeTextField] = useState("");
+  const [textFieldError, setTextFieldError] = useState("");
 
   const app = useAppBridge();
 
@@ -60,6 +62,9 @@ const Index = () => {
         if (edge.node.namespace == "openinghours") {
           result = edge.node;
           setMetafieldId(result.id);
+        }
+        if (edge.node.namespace == "deliveryareas") {
+          setPostCodeTextField(edge.node.value);
         }
       });
       const obj = JSON.parse(result.value);
@@ -122,7 +127,34 @@ const Index = () => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ metafieldId: metafieldId, dataobject }),
     });
+
+    await authFetch(`/api/deliveryareas`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ postCodeTextField }),
+    });
   };
+
+  const handleTextFieldChange = useCallback((value) => {
+    value = value.replace(/\s/g, "");
+    setPostCodeTextField(value);
+    let showError = false;
+    try {
+      value.split(";").forEach((element) => {
+        var numb = parseInt(element);
+        if (!Number.isInteger(numb) || element.length !== 4) {
+          showError = true;
+        }
+      });
+    } catch (err) {
+      showError = true;
+    }
+    if (showError) {
+      setTextFieldError("Invalid formating. Please use: 1030;1040;1090");
+    } else {
+      setTextFieldError("");
+    }
+  }, []);
 
   return (
     <Page
@@ -137,6 +169,13 @@ const Index = () => {
         onClick: saveClicked,
       }}
     >
+      <TextField
+        label="Delivery areas (add postcode seperated with semicolons)"
+        value={postCodeTextField}
+        onChange={handleTextFieldChange}
+        error={textFieldError}
+        autoComplete="off"
+      />
       <Card title="Monday" sectioned>
         <Layout>
           <Layout.Section secondary>

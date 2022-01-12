@@ -1,6 +1,6 @@
 import Shopify, { DataType } from "@shopify/shopify-api";
 
-const openingHoursMetafieldExists = async (host, token) => {
+const metafieldExists = async (host, token, metafieldName) => {
   const query = `
     {
       shop {
@@ -26,10 +26,10 @@ const openingHoursMetafieldExists = async (host, token) => {
   if (metafields.length == 0) {
     return false;
   } else {
-    let exists = false;
+    let exists = { exists: false, id: "" };
     metafields.forEach((element) => {
-      if (element.node.namespace == "openinghours") {
-        exists = true;
+      if (element.node.namespace == metafieldName) {
+        exists = { exists: true, id: element.node.id };
       }
     });
     return exists;
@@ -97,10 +97,50 @@ const updateOpeningHoursMetafield = async (
   }
 };
 
+const updateDeliveryAreaMeta = async (domain, token, dataobject) => {
+  try {
+    const exists = await metafieldExists(domain, token, "deliveryareas");
+    const client = new Shopify.Clients.Rest(domain, token);
+    const metafieldIdValue = exists.id.split("/")[4];
+    let response;
+    if (exists.exists) {
+      response = await client.put({
+        path: `metafields/${metafieldIdValue}`,
+        data: {
+          metafield: {
+            id: metafieldId,
+            value: JSON.stringify(dataobject),
+            type: "json",
+          },
+        },
+        type: DataType.JSON,
+      });
+    } else {
+      response = await client.post({
+        path: `metafields`,
+        data: {
+          metafield: {
+            id: metafieldId,
+            value: JSON.stringify(dataobject),
+            type: "json",
+          },
+        },
+        type: DataType.JSON,
+      });
+    }
+    if (response) {
+      console.log("Successfully updated delivery areas.");
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export {
-  openingHoursMetafieldExists,
+  metafieldExists,
   createOpeningHoursMetafield,
   updateOpeningHoursMetafield,
+  updateDeliveryAreaMeta,
 };
 
 // <script>console.log({{ shop.metafields.openinghours | json }});</script>

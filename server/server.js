@@ -8,7 +8,7 @@ import next from "next";
 import Router from "koa-router";
 import {
   createOpeningHoursMetafield,
-  openingHoursMetafieldExists,
+  metafieldExists,
   updateOpeningHoursMetafield,
 } from "./helper";
 import koaBodyparser from "koa-bodyparser";
@@ -66,9 +66,9 @@ app.prepare().then(async () => {
           );
         }
 
-        const exists = await openingHoursMetafieldExists(shop, accessToken);
+        const exists = await metafieldExists(shop, accessToken, "openinghours");
         console.log("Exists", exists);
-        if (!exists) {
+        if (!exists.exists) {
           await createOpeningHoursMetafield(shop, accessToken);
         }
 
@@ -114,6 +114,25 @@ app.prepare().then(async () => {
           session.accessToken,
           body.metafieldId,
           body.dataobject
+        );
+      }
+      ctx.res.statusCode = 201;
+      ctx.res.end();
+    }
+  );
+
+  router.post(
+    "/api/deliveryareas",
+    koaBodyparser(),
+    verifyRequest(),
+    async (ctx) => {
+      const session = await Shopify.Utils.loadCurrentSession(ctx.req, ctx.res);
+      const body = ctx.request.body;
+      if (body) {
+        await updateDeliveryAreaMeta(
+          session.shop,
+          session.accessToken,
+          body.postCodeTextField
         );
       }
       ctx.res.statusCode = 201;
