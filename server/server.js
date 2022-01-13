@@ -10,6 +10,7 @@ import {
   createOpeningHoursMetafield,
   metafieldExists,
   updateOpeningHoursMetafield,
+  updateDeliveryAreaMeta,
 } from "./helper";
 import koaBodyparser from "koa-bodyparser";
 

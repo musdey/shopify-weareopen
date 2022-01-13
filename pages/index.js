@@ -92,6 +92,7 @@ const Index = () => {
   useEffect(() => {
     setDataChanged(true);
   }, [
+    postCodeTextField,
     monday,
     tuesday,
     wednesday,
@@ -135,7 +136,7 @@ const Index = () => {
     });
   };
 
-  const handleTextFieldChange = useCallback((value) => {
+  const handleTextFieldChange = (value) => {
     value = value.replace(/\s/g, "");
     setPostCodeTextField(value);
     let showError = false;
@@ -154,7 +155,7 @@ const Index = () => {
     } else {
       setTextFieldError("");
     }
-  }, []);
+  };
 
   return (
     <Page
@@ -169,13 +170,17 @@ const Index = () => {
         onClick: saveClicked,
       }}
     >
-      <TextField
-        label="Delivery areas (add postcode seperated with semicolons)"
-        value={postCodeTextField}
-        onChange={handleTextFieldChange}
-        error={textFieldError}
-        autoComplete="off"
-      />
+      <Card
+        title="Delivery areas (add postcode seperated with semicolons)"
+        sectioned
+      >
+        <TextField
+          value={postCodeTextField}
+          onChange={handleTextFieldChange}
+          error={textFieldError}
+          autoComplete="off"
+        />
+      </Card>
       <Card title="Monday" sectioned>
         <Layout>
           <Layout.Section secondary>

@@ -108,9 +108,9 @@ const updateDeliveryAreaMeta = async (domain, token, dataobject) => {
         path: `metafields/${metafieldIdValue}`,
         data: {
           metafield: {
-            id: metafieldId,
-            value: JSON.stringify(dataobject),
-            type: "json",
+            id: exists.id,
+            value: dataobject,
+            type: "string",
           },
         },
         type: DataType.JSON,
@@ -120,9 +120,10 @@ const updateDeliveryAreaMeta = async (domain, token, dataobject) => {
         path: `metafields`,
         data: {
           metafield: {
-            id: metafieldId,
-            value: JSON.stringify(dataobject),
-            type: "json",
+            namespace: "deliveryareas",
+            key: "currentareas",
+            value: dataobject,
+            type: "string",
           },
         },
         type: DataType.JSON,
