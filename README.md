@@ -1,9 +1,53 @@
-# Shopify App Node
+# Shopify WeAreOpen App
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE.md)
-[![Build Status](https://travis-ci.com/Shopify/shopify-app-node.svg?branch=master)](https://travis-ci.com/Shopify/shopify-app-node)
+## Overview
 
-Boilerplate to create an embedded Shopify app made with Node, [Next.js](https://nextjs.org/), [Shopify-koa-auth](https://github.com/Shopify/quilt/tree/master/packages/koa-shopify-auth), [Polaris](https://github.com/Shopify/polaris-react), and [App Bridge React](https://shopify.dev/tools/app-bridge/react-components).
+The **Shopify WeAreOpen App** is designed to enhance the functionality of your Shopify store by restricting the ability to place orders based on the opening hours you define within the app. This is particularly useful for local businesses, such as restaurants, that need to control when customers can place orders based on their operating hours.
+
+![img](weareopen.jpg)
+
+## Key Features
+
+- **Customizable Opening Hours**: Define specific opening hours for each day of the week (e.g., Monday-Saturday, 09:00-21:00). 
+- **Automatic Store Closure Notifications**: When your store is outside of the set operating hours, a banner will automatically inform customers that the store is closed.
+- **Browsing Without Ordering**: Even when the store is closed for orders, customers can still browse products, allowing them to plan their purchases ahead of time.
+- **Ideal for Local Businesses**: This app is perfect for local businesses such as restaurants, cafes, or any service that relies on specific operating hours for order fulfillment.
+
+## How It Works
+
+1. **Setting Up Opening Hours**: Use the app to easily configure the opening hours for your store by selecting the days and times you are open for business.
+
+2. **Customer Experience**:
+   - When customers visit your store outside of the set opening hours, a banner will notify them that the store is currently closed for orders.
+   - Customers can continue to browse your products and add items to their cart, but they will not be able to complete the purchase until the store is within operating hours.
+
+3. **Seamless Integration**: The app integrates smoothly with your Shopify store, ensuring that the shopping experience is consistent and professional.
+
+## Installation
+
+To install and configure the **Shopify Opening Hours Restriction App**, follow these steps:
+
+1. **Install the App**: Download and install the app from the Shopify App Store or your internal repository.
+2. **Configure Opening Hours**: Navigate to the app settings and set your desired opening hours for each day of the week.
+3. **Activate the Banner**: Ensure the banner notification is enabled so that customers are informed when the store is closed for orders.
+
+## Use Case Example
+
+Imagine running a local restaurant that delivers food only during specific hours. With this app, you can:
+- Set your restaurant’s delivery hours (e.g., Monday-Saturday, 09:00-21:00).
+- Outside these hours, customers visiting your online store will see a banner indicating that orders cannot be placed at the moment, but they can still explore your menu and plan their orders for later.
+
+This functionality helps you manage customer expectations while maintaining the convenience of an online storefront.
+
+## Support
+
+For any questions or issues, please contact our support team at [support@example.com](mailto:support@example.com).
+
+---
+
+**Note**: This app is designed to work seamlessly with Shopify, requiring no additional configuration beyond setting your opening hours.
+
+
 
 ## Installation
 
